@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NANAY Jean Yoram - Développeur Web Full Stack</title>
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/fonts/css/all.min.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="assets/vendor/bootstrap/css/sweetalert2.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+        
+        .navbar {
+            background-color: var(--secondary-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 150px 0 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+        
+        .hero-section .container {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid white;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+        
+        .section-title:hover::after {
+            width: 100px;
+        }
+        
+        .skill-item {
+            margin-bottom: 20px;
+        }
+        
+        .progress {
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            transition: width 1s ease-in-out;
+        }
+        
+        .service-card {
+            border: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .service-icon {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.2);
+        }
+        
+        .contact-info {
+            background-color: var(--light-color);
+            padding: 30px;
+            border-radius: 10px;
+            height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .contact-info:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            font-size: 24px;
+            color: var(--primary-color);
+            margin-right: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 30px 0;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        /* Animation pour les sections */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Styles pour les champs de formulaire agrandis */
+        .form-control-lg-custom {
+            height: 60px;
+            padding: 15px 20px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control-lg-custom:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .textarea-lg-custom {
+            min-height: 200px;
+            padding: 20px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+        
+        .textarea-lg-custom:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        .form-label-lg {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--secondary-color);
+        }
+        
+        .btn-submit-lg {
+            height: 60px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 15px 40px;
+        }
+
+        /* Bouton flottant personnalisé */
+        .floating-contact-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .floating-contact-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+            background: #2980b9;
+        }
+
+        /* Modal personnalisé */
+        .custom-modal .modal-content {
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .custom-modal .modal-header {
+            background: var(--secondary-color);
+            color: white;
+            border-radius: 15px 15px 0 0;
+            border-bottom: none;
+            padding: 20px 25px;
+        }
+
+        .custom-modal .modal-body {
+            padding: 25px;
+        }
+
+        .custom-modal .btn-close {
+            filter: invert(1);
+        }
+
+        /* Loading state pour le bouton d'envoi */
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
+        }
+
+        .btn-loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">NANAY Jean Yoram</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">À propos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills">Compétences</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-md-start fade-in">
+                    <h1 class="display-4 fw-bold">NANAY Jean Yoram</h1>
+                    <h2 class="h3 mb-4">Développeur Web Full Stack</h2>
+                    <p class="lead mb-4">Je crée des solutions web modernes, élégantes et fonctionnelles pour répondre à vos besoins numériques.</p>
+                    <a href="#contact" class="btn btn-outline-light btn-lg"><i class="fa fa-phone me-3"></i>Me contacter</a>
+                    <button id="downloadCV" class="btn btn-outline-light btn-lg mx-2 fs-4">
+                        <i class="fa fa-download me-3"></i>Resume
+                    </button>
+                </div>
+                <div class="col-md-6 text-center mt-4 mt-md-0 fade-in">
+                    <img src="assets/img/profil.jpeg" alt="Photo de NANAY Jean Yoram" class="profile-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <h2 class="section-title fade-in">À propos</h2>
+            <div class="row">
+                <div class="col-lg-6 fade-in">
+                    <h3 class="mb-4">Développeur Web Full Stack</h3>
+                    <p class="mb-4">Je suis un développeur passionné par la création de solutions web innovantes et performantes. Avec une expertise en développement front-end et back-end, je transforme vos idées en réalité numérique.</p>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><strong>Âge :</strong> 22 ans</li>
+                                <li class="mb-2"><strong>Ville :</strong> Antananarivo, Madagascar</li>
+                                <li class="mb-2"><strong>Diplôme :</strong> Licence en Informatique</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2"><strong>Email :</strong> nanayyoram00@gmail.com</li>
+                                <li class="mb-2"><strong>Téléphone :</strong> +261 38 46 182 63</li>
+                                <li class="mb-2"><strong>Freelance :</strong> Disponible</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row mt-4 mt-lg-0">
+                        <div class="col-md-6 mb-4 fade-in">
+                            <div class="text-center p-4 border rounded h-100">
+                                <i class="bi bi-code-slash display-4 text-primary"></i>
+                                <h4 class="mt-3">Développement Web</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4 fade-in">
+                            <div class="text-center p-4 border rounded h-100">
+                                <i class="bi bi-phone display-4 text-primary"></i>
+                                <h4 class="mt-3">Applications Mobiles</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4 fade-in">
+                            <div class="text-center p-4 border rounded h-100">
+                                <i class="bi bi-palette display-4 text-primary"></i>
+                                <h4 class="mt-3">Design UI/UX</h4>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4 fade-in">
+                            <div class="text-center p-4 border rounded h-100">
+                                <i class="bi bi-server display-4 text-primary"></i>
+                                <h4 class="mt-3">Backend & Bases de données</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title fade-in">Compétences</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3 class="mb-4">Compétences Techniques</h3>
+                    
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between mb-4">
+                            <span>HTML/CSS</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between mb-4">
+                            <span>JavaScript</span>
+                            <span>80%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between mb-4">
+                            <span>PHP</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="d-flex justify-content-between mb-4">
+                            <span>Python</span>
+                            <span>70%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 70%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mt-4 mt-lg-0">
+                    <h3 class="mb-4">Frameworks & Technologies</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <img src="assets/img/apple-touch-icon.png" alt="" width="70px" height="70px" class="me-3">
+                                <span>Bootstrap</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <img src="assets/img/laravel.png" alt="" width="70px" height="70px" class="me-3">
+                                <span>Laravel</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <svg  version="1.0" id="Layer_1" xmlns="&ns_svg;" xmlns:xlink="&ns_xlink;" width="70" height="70"
+                                    viewBox="0 0 504.09 215.994" overflow="visible" enable-background="new 0 0 504.09 215.994" xml:space="preserve" class="me-3">
+                                <path fill="#092E20" d="M504.09,187.994c0,15.464-12.536,28-28,28H28c-15.464,0-28-12.536-28-28V28C0,12.536,12.536,0,28,0h448.09
+                                    c15.464,0,28,12.536,28,28V187.994z"/>
+                                <g>
+                                    <g>
+                                        <path fill="#FFFFFF" d="M86.945,33.919h23.872v110.496c-12.246,2.325-21.237,3.255-31.002,3.255
+                                            c-29.142,0-44.333-13.174-44.333-38.443c0-24.336,16.122-40.147,41.078-40.147c3.875,0,6.82,0.311,10.386,1.239V33.919z
+                                            M86.945,89.539c-2.79-0.929-5.115-1.239-8.06-1.239c-12.091,0-19.067,7.441-19.067,20.46c0,12.713,6.666,19.688,18.912,19.688
+                                            c2.634,0,4.805-0.155,8.215-0.618V89.539z"/>
+                                        <path fill="#FFFFFF" d="M148.793,70.783v55.341c0,19.065-1.395,28.21-5.58,36.117c-3.876,7.596-8.992,12.399-19.532,17.67
+                                            l-22.167-10.541c10.541-4.96,15.656-9.297,18.911-15.966c3.411-6.819,4.497-14.727,4.497-35.498V70.783H148.793z M124.922,34.046
+                                            h23.871v24.493h-23.871V34.046z"/>
+                                        <path fill="#FFFFFF" d="M163.212,76.209c10.542-4.961,20.617-7.13,31.623-7.13c12.246,0,20.306,3.255,23.872,9.611
+                                            c2.014,3.564,2.634,8.214,2.634,18.137v48.517c-10.697,1.552-24.182,2.636-34.102,2.636c-19.996,0-28.988-6.977-28.988-22.476
+                                            c0-16.744,11.936-24.493,41.234-26.975v-5.271c0-4.339-2.17-5.888-8.216-5.888c-8.835,0-18.756,2.479-28.058,7.285V76.209z
+                                            M200.57,114.187c-15.812,1.552-20.927,4.031-20.927,10.231c0,4.65,2.946,6.821,9.456,6.821c3.566,0,6.82-0.311,11.471-1.084
+                                            V114.187z"/>
+                                        <path fill="#FFFFFF" d="M232.968,74.505c14.105-3.722,25.731-5.426,37.512-5.426c12.246,0,21.082,2.788,26.354,8.216
+                                            c4.96,5.113,6.509,10.693,6.509,22.632v46.813h-23.871v-45.884c0-9.145-3.1-12.557-11.625-12.557c-3.255,0-6.2,0.311-11.007,1.706
+                                            v56.734h-23.871V74.505z"/>
+                                        <path fill="#FFFFFF" d="M312.623,159.761c8.372,4.339,16.742,6.354,25.577,6.354c15.655,0,22.321-6.354,22.321-21.546
+                                            c0-0.154,0-0.31,0-0.467c-4.65,2.326-9.301,3.257-15.5,3.257c-20.927,0-34.26-13.797-34.26-35.652
+                                            c0-27.128,19.688-42.473,54.564-42.473c10.232,0,19.688,1.084,31.159,3.407l-8.174,17.222c-6.356-1.241-0.509-0.167-5.312-0.632
+                                            v2.48l0.309,10.074l0.154,13.022c0.155,3.253,0.155,6.51,0.311,9.764c0,2.945,0,4.342,0,6.512c0,20.462-1.705,30.073-6.82,37.977
+                                            c-7.441,11.627-20.307,17.362-38.598,17.362c-9.301,0-17.36-1.396-25.732-4.651V159.761z M360.057,88.455c-0.31,0-0.619,0-0.774,0
+                                            h-1.706c-4.649-0.155-10.074,1.084-13.796,3.409c-5.734,3.257-8.681,9.146-8.681,17.518c0,11.937,5.892,18.756,16.432,18.756
+                                            c3.255,0,5.891-0.62,8.99-1.55v-1.705v-6.51c0-2.79-0.154-5.892-0.154-9.146l-0.154-11.006l-0.156-7.905V88.455z"/>
+                                        <path fill="#FFFFFF" d="M433.543,68.77c23.871,0,38.443,15.037,38.443,39.371c0,24.957-15.19,40.613-39.373,40.613
+                                            c-23.873,0-38.599-15.036-38.599-39.216C394.015,84.424,409.207,68.77,433.543,68.77z M433.076,129.533
+                                            c9.147,0,14.573-7.596,14.573-20.773c0-13.019-5.271-20.771-14.415-20.771c-9.457,0-14.884,7.598-14.884,20.771
+                                            C418.351,121.938,423.777,129.533,433.076,129.533z"/>
+                                    </g>
+                                </g>
+                                </svg>
+
+                                <span>Django</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <img src="assets/img/react-logo.png" alt="" width="70px" height="70px" class="me-3">
+                                <span>React Native</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                 <img src="assets/img/mysql.png" alt="" width="70px" height="70px" class="me-3">
+                                <span>MySQL</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="d-flex align-items-center p-3 bg-white rounded shadow-sm">
+                                <img src="assets/img/LogoPostgreSql100reel.png" alt="" width="70px" height="70px" class="me-3">
+                                <span>PostgreSQL</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-5">
+        <div class="container">
+            <h2 class="section-title fade-in">Services</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4 fade-in">
+                    <div class="card service-card">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-laptop service-icon"></i>
+                            <h4 class="card-title">Développement Web</h4>
+                            <p class="card-text">Création de sites web responsifs et modernes adaptés à tous les appareils, avec une expérience utilisateur optimale.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 fade-in">
+                    <div class="card service-card">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-phone service-icon"></i>
+                            <h4 class="card-title">Applications Mobiles</h4>
+                            <p class="card-text">Développement d'applications mobiles cross-platform performantes avec React Native.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4 fade-in">
+                    <div class="card service-card">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-server service-icon"></i>
+                            <h4 class="card-title">Backend & API</h4>
+                            <p class="card-text">Conception et développement d'API robustes et de systèmes backend sécurisés et évolutifs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-8 mx-auto text-center fade-in">
+                    <div class="p-4 bg-light rounded">
+                        <h3>Freelance sur ComeUp</h3>
+                        <p class="mb-3">Je propose mes services en freelance sur la plateforme ComeUp pour répondre à vos besoins en développement web et mobile.</p>
+                        <a href="https://comeup.com/fr/@yoramnanay" class="btn btn-primary">Voir mon profil ComeUp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title fade-in">Contact</h2>
+            <div class="row">
+                <div class="col-lg-12 mb-4 fade-in">
+                    <div class="contact-info">
+                        <h3 class="mb-4">Informations de contact</h3>
+                        
+                        <div class="d-flex align-items-start mb-4">
+                            <i class="bi bi-geo-alt contact-icon"></i>
+                            <div>
+                                <h5>Adresse</h5>
+                                <p>Antananarivo, Madagascar</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-start mb-4">
+                            <i class="bi bi-envelope contact-icon"></i>
+                            <div>
+                                <h5>Email</h5>
+                                <p>nanayyoram00@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex align-items-start mb-4">
+                            <i class="bi bi-phone contact-icon"></i>
+                            <div>
+                                <h5>Téléphone</h5>
+                                <p>+261 38 46 182 63</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h5>Réseaux sociaux</h5>
+                            <div class="d-flex mt-3">
+                                <a href="https://github.com/jokerhacker9coeur" class="text-primary me-3"><i class="bi bi-github fs-4"></i></a>
+                                <a href="https://x.com/NanayYoram96147" class="text-primary me-3"><i class="bi bi-twitter fs-4"></i></a>
+                                <a href="https://www.facebook.com/profile.php?id=61564896006293" class="text-primary"><i class="bi bi-facebook fs-4"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p>&copy; 2025 NANAY Jean Yoram. Tous droits réservés.</p>
+            <div class="social-links">
+               <a href="https://github.com/jokerhacker9coeur" class="text-primary me-3"><i class="bi bi-github fs-4"></i></a>
+               <a href="https://x.com/NanayYoram96147" class="text-primary me-3"><i class="bi bi-twitter fs-4"></i></a>
+               <a href="https://www.facebook.com/profile.php?id=61564896006293" class="text-primary"><i class="bi bi-facebook fs-4"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bouton flottant pour ouvrir le modal -->
+    <button type="button" class="floating-contact-btn" data-bs-toggle="modal" data-bs-target="#contactModal">
+        <i class="fas fa-comments"></i> Demande de devis
+    </button>
+
+    <!-- Modal Contact -->
+    <div class="modal fade custom-modal" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactModalLabel">Contactez-moi pour votre projet</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="contactForm" action="https://formspree.io/f/xyznpwjk" method="POST">
+                        <div class="mb-3">
+                            <label for="name" class="form-label form-label-lg">Votre nom:</label>
+                            <input type="text" class="form-control form-control-lg-custom" id="name" name="name" required placeholder="Jean Dupont">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label form-label-lg">Votre email:</label>
+                            <input type="email" class="form-control form-control-lg-custom" id="email" name="email" required placeholder="vous@exemple.com">
+                        </div>
+                        <div class="mb-3">
+                            <label for="project_type" class="form-label form-label-lg">Type de projet:</label>
+                            <select class="form-select form-control-lg-custom" id="project_type" name="project_type" required>
+                                <option value="">Sélectionnez un type de projet</option>
+                                <option value="website">Site Web</option>
+                                <option value="portfolio">Portfolio/CV</option>
+                                <option value="mobile_app">Application Mobile</option>
+                                <option value="other">Autre</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="form-label form-label-lg">Description du projet:</label>
+                            <textarea class="form-control textarea-lg-custom" id="message" name="message" rows="6" required placeholder="Décrivez votre projet, vos besoins et votre budget..."></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary btn-submit-lg" id="submitBtn">
+                                <i class="fas fa-paper-plane"></i> Envoyer la demande
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="assets/vendor/bootstrap/js/sweetalert2.all.min.js"></script>
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Navbar background change on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.backgroundColor = 'rgba(44, 62, 80, 0.95)';
+            } else {
+                navbar.style.backgroundColor = '';
+            }
+        });
+        
+        // Animation au défilement
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Animation des barres de progression
+                    if (entry.target.id === 'skills') {
+                        document.querySelectorAll('.progress-bar').forEach(bar => {
+                            const width = bar.style.width;
+                            bar.style.width = '0';
+                            setTimeout(() => {
+                                bar.style.width = width;
+                            }, 300);
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Gestion du téléchargement du CV
+        document.getElementById('downloadCV').addEventListener('click', function() {
+            Swal.fire({
+                title: 'Télécharger le CV',
+                text: 'Voulez-vous télécharger mon CV au format PDF ?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Oui, télécharger',
+                cancelButtonText: 'Annuler',
+                confirmButtonColor: '#3498db',
+                cancelButtonColor: '#e74c3c',
+                background: '#ecf0f1'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Créer un lien de téléchargement temporaire
+                    const link = document.createElement('a');
+                    link.href = 'assets/documents/cv.pdf';
+                    link.download = 'CV_NANAY_Jean_Yoram.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    // Message de confirmation
+                    Swal.fire({
+                        title: 'Téléchargement commencé !',
+                        text: 'Votre téléchargement devrait commencer dans quelques secondes.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#3498db',
+                        background: '#ecf0f1'
+                    });
+                }
+            });
+        });
+
+        // Gestion du formulaire de contact avec SweetAlert
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            
+            // Afficher l'indicateur de chargement
+            submitBtn.disabled = true;
+            submitBtn.classList.add('btn-loading');
+            
+            // Récupérer les données du formulaire
+            const formData = new FormData(this);
+            
+            // Envoyer les données via Formspree
+            fetch(this.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Afficher un message de succès avec SweetAlert
+                    Swal.fire({
+                        title: 'Message envoyé !',
+                        text: 'Votre message a été envoyé avec succès ! Je vous répondrai dans les plus brefs délais.',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#3498db',
+                        background: '#ecf0f1',
+                        iconColor: '#2ecc71'
+                    });
+                    
+                    // Fermer le modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('contactModal'));
+                    modal.hide();
+                    
+                    // Réinitialiser le formulaire
+                    this.reset();
+                } else {
+                    // Afficher un message d'erreur avec SweetAlert
+                    Swal.fire({
+                        title: 'Erreur',
+                        text: 'Une erreur s\'est produite lors de l\'envoi du message. Veuillez réessayer.',
+                        icon: 'error',
+                        confirmButtonText: 'OK',
+                        confirmButtonColor: '#e74c3c',
+                        background: '#ecf0f1',
+                        iconColor: '#e74c3c'
+                    });
+                }
+            })
+            .catch(error => {
+                // Afficher un message d'erreur avec SweetAlert
+                Swal.fire({
+                    title: 'Erreur',
+                    text: 'Une erreur s\'est produite lors de l\'envoi du message. Veuillez réessayer.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#e74c3c',
+                    background: '#ecf0f1',
+                    iconColor: '#e74c3c'
+                });
+            })
+            .finally(() => {
+                // Réactiver le bouton
+                submitBtn.disabled = false;
+                submitBtn.classList.remove('btn-loading');
+                submitBtn.innerHTML = originalText;
+            });
+        });
+    </script>
+</body>
+</html>
